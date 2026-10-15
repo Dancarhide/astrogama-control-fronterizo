@@ -1,12 +1,15 @@
 // ============================================================================
-// ASTROGAMA: MOTOR DE EFECTOS DE SONIDO SINTETIZADOS (Web Audio API)
-// Compatible universalmente (file:// script tag y módulos)
+// ASTROGAMA: MOTOR DE AUDIO (EFECTOS DE SONIDO SINTETIZADOS + MÚSICA DE FONDO)
 // ============================================================================
 
 class SoundEngine {
   constructor() {
     this.ctx = null;
     this.enabled = true;
+    this.bgm = null;
+    this.musicEnabled = true;
+    this.musicStarted = false;
+    this.targetVolume = 0.28; // Nivel de volumen ideal (28%) para fondo ambiental
   }
 
   init() {
@@ -19,12 +22,48 @@ class SoundEngine {
     }
   }
 
+  // --- MÚSICA DE FONDO (BGM) ---
+  initBgm() {
+    if (!this.bgm) {
+      this.bgm = new Audio('assets/La%20Noja%20del%20Mariachi.mp3');
+      this.bgm.loop = true;
+      this.bgm.volume = this.targetVolume;
+      this.bgm.preload = 'auto';
+    }
+  }
+
+  startBgm() {
+    if (!this.musicEnabled || this.musicStarted) return;
+    this.initBgm();
+    this.bgm.play()
+      .then(() => {
+        this.musicStarted = true;
+      })
+      .catch((err) => {
+        // Los navegadores bloquean audio automático hasta la primera interacción
+        console.log("Esperando primera interacción para iniciar música...", err);
+      });
+  }
+
+  toggleMusic() {
+    this.initBgm();
+    this.musicEnabled = !this.musicEnabled;
+    if (this.musicEnabled) {
+      this.bgm.play();
+      this.musicStarted = true;
+    } else {
+      this.bgm.pause();
+    }
+    return this.musicEnabled;
+  }
+
+  // --- EFECTOS DE SONIDO (SFX) ---
   playStamp() {
     if (!this.enabled) return;
     this.init();
     const t = this.ctx.currentTime;
     
-    // Mechanical stamp thud
+    // Impacto mecánico de sello
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     osc.type = 'triangle';
@@ -37,7 +76,7 @@ class SoundEngine {
     osc.start(t);
     osc.stop(t + 0.15);
 
-    // Paper noise snap
+    // Chasquido de papel
     const bufferSize = this.ctx.sampleRate * 0.05;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -77,7 +116,7 @@ class SoundEngine {
     if (!this.enabled) return;
     this.init();
     const t = this.ctx.currentTime;
-    // Klaxon buzzer
+    // Sirena / Buzzer
     for (let i = 0; i < 2; i++) {
       const start = t + i * 0.16;
       const osc = this.ctx.createOscillator();

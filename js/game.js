@@ -35,6 +35,8 @@
   const btnAllow = document.getElementById('btn-allow');
   const btnImpostor = document.getElementById('btn-impostor');
   const endModal = document.getElementById('end-modal');
+  const musicBtn = document.getElementById('music-btn');
+  const musicIcon = document.getElementById('music-icon');
   const soundBtn = document.getElementById('sound-btn');
   const soundIcon = document.getElementById('sound-icon');
   const btnNext = document.getElementById('btn-next');
@@ -267,6 +269,17 @@
     initGame();
   }
 
+  // Music toggle listener
+  if (musicBtn) {
+    musicBtn.addEventListener('click', () => {
+      if (window.sfx) {
+        const isPlaying = window.sfx.toggleMusic();
+        musicIcon.textContent = isPlaying ? '🎵' : '🔇';
+        musicBtn.style.color = isPlaying ? '#fff' : '#64748b';
+      }
+    });
+  }
+
   // Sound toggle listener
   if (soundBtn) {
     soundBtn.addEventListener('click', () => {
@@ -277,6 +290,15 @@
       }
     });
   }
+
+  // Desbloqueo suave de música en bucle con la primera interacción del usuario
+  function triggerUserAudioStart() {
+    if (window.sfx) {
+      window.sfx.startBgm();
+    }
+  }
+  window.addEventListener('click', triggerUserAudioStart, { once: true });
+  window.addEventListener('keydown', triggerUserAudioStart, { once: true });
 
   // Action button listeners
   if (btnAllow) {
