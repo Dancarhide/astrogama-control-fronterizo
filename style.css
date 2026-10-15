@@ -1199,3 +1199,354 @@ footer {
   letter-spacing: 1.5px;
 }
 
+.menu-pill-count {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  background: rgba(255, 183, 3, 0.18);
+  color: var(--accent-yellow);
+  border: 1px solid rgba(255, 183, 3, 0.4);
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-left: auto;
+}
+
+/* ==========================================================================
+   ACHIEVEMENT TOAST (NOTIFICACIÓN FLOTANTE DE MEDALLA DESBLOQUEADA)
+   ========================================================================== */
+
+.achievement-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(20, 27, 43, 0.95) 0%, rgba(11, 15, 25, 0.95) 100%);
+  border: 2px solid var(--accent-yellow);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.8),
+    0 0 25px var(--accent-yellow-glow);
+  border-radius: 14px;
+  padding: 14px 20px;
+  max-width: 420px;
+  backdrop-filter: blur(12px);
+  transform: translateX(120%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.achievement-toast.active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast-medal-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe082 0%, #ffb300 100%);
+  box-shadow: 0 0 15px rgba(255, 179, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  animation: pulseMedal 1.5s infinite alternate;
+}
+
+@keyframes pulseMedal {
+  from { transform: scale(1); filter: drop-shadow(0 0 4px gold); }
+  to { transform: scale(1.08); filter: drop-shadow(0 0 12px gold); }
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toast-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  color: var(--accent-yellow);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.toast-medal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.toast-medal-desc {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   ACHIEVEMENTS MODAL (EXPEDIENTE DE CONDECORACIONES)
+   ========================================================================== */
+
+.modal-achievements-card {
+  max-width: 780px !important;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 28px !important;
+  border-color: var(--accent-yellow) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--accent-yellow-glow) !important;
+}
+
+.achievements-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #233149;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.achievements-header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.modal-title-icon {
+  font-size: 2.2rem;
+}
+
+.achievements-header-title h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.achievements-header-title p {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+.btn-close-modal {
+  background: #1a2233;
+  border: 1px solid #3b4252;
+  color: #94a3b8;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-close-modal:hover {
+  background: var(--alarm-red);
+  color: #fff;
+  border-color: var(--alarm-red);
+}
+
+/* Barra de progreso de logros */
+.achievements-progress-container {
+  background: #0f1624;
+  border: 1px solid #233149;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: #cbd5e1;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #1e293b;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffb703 0%, #00ff88 100%);
+  border-radius: 100px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+/* Cuadrícula de medallitas */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  overflow-y: auto;
+  max-height: 52vh;
+  padding-right: 6px;
+}
+
+.achievements-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.achievements-grid::-webkit-scrollbar-track {
+  background: #111724;
+  border-radius: 4px;
+}
+.achievements-grid::-webkit-scrollbar-thumb {
+  background: #233149;
+  border-radius: 4px;
+}
+
+/* Tarjeta individual de medalla */
+.medal-card {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 14px;
+  align-items: center;
+  background: #121927;
+  border: 1.5px solid #233149;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.medal-card:hover {
+  transform: translateY(-2px);
+}
+
+.medal-card.unlocked {
+  background: linear-gradient(135deg, rgba(20, 28, 44, 0.9) 0%, rgba(13, 20, 32, 0.9) 100%);
+  border-color: rgba(255, 183, 3, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.medal-card.locked {
+  opacity: 0.55;
+  filter: grayscale(80%);
+}
+
+.medal-card.tier-platino.unlocked {
+  border-color: #00d4ff;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
+}
+
+.medal-card.tier-oro.unlocked {
+  border-color: #ffb703;
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.25);
+}
+
+.medal-card.tier-plata.unlocked {
+  border-color: #94a3b8;
+}
+
+.medal-card.tier-bronce.unlocked {
+  border-color: #d97706;
+}
+
+.medal-emblem-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.medal-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.medal-card.unlocked .medal-circle {
+  border-color: var(--accent-yellow);
+  background: radial-gradient(circle, #2a3b5c 0%, #152238 100%);
+}
+
+.medal-card.tier-platino.unlocked .medal-circle {
+  border-color: var(--cyber-blue);
+  background: radial-gradient(circle, #1a3c54 0%, #0d2232 100%);
+}
+
+.medal-ribbon {
+  position: absolute;
+  bottom: -4px;
+  right: -2px;
+  font-size: 1.15rem;
+}
+
+.medal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.medal-tier-tag {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #718096;
+  font-family: var(--font-mono);
+}
+
+.medal-card.tier-platino .medal-tier-tag { color: var(--cyber-blue); }
+.medal-card.tier-oro .medal-tier-tag { color: var(--accent-yellow); }
+.medal-card.tier-plata .medal-tier-tag { color: #cbd5e1; }
+.medal-card.tier-bronce .medal-tier-tag { color: #d97706; }
+
+.medal-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.medal-desc {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  line-height: 1.35;
+}
+
+.medal-date {
+  font-size: 0.62rem;
+  color: var(--neon-green);
+  font-family: var(--font-mono);
+  margin-top: 3px;
+}
+
+.medal-locked-hint {
+  font-size: 0.62rem;
+  color: #64748b;
+  font-family: var(--font-mono);
+  margin-top: 3px;
+}
+
+

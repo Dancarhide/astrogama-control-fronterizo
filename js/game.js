@@ -46,6 +46,11 @@
   const btnMenuJugar = document.getElementById('btn-menu-jugar');
   const exitGameBtn = document.getElementById('exit-game-btn');
   const btnModalExit = document.getElementById('btn-modal-exit');
+  const btnMenuLogros = document.getElementById('btn-menu-logros');
+  const hudLogrosBtn = document.getElementById('hud-logros-btn');
+  const achievementsModal = document.getElementById('achievements-modal');
+  const btnCloseAchievements = document.getElementById('btn-close-achievements');
+  let travelerStartTime = Date.now();
 
   function initGame(startTimerNow = true) {
     const casesBank = window.CASES_BANK || [];
@@ -143,6 +148,8 @@
     destValEl.textContent = current.dest;
     durValEl.textContent = current.dur;
     motivoTextEl.textContent = `"${current.phrase.text}"`;
+
+    travelerStartTime = Date.now();
   }
 
   function makeDecision(playerChoseAlien) {
@@ -154,8 +161,21 @@
     const current = roundQueue[currentIndex];
     const isActuallyAlien = current.phrase.isAlien;
     const isCorrect = (playerChoseAlien === isActuallyAlien);
+    const decisionDurationSeconds = (Date.now() - travelerStartTime) / 1000;
 
     if (window.sfx) window.sfx.playStamp();
+
+    // Evaluar y registrar logro si corresponde
+    if (window.achievements) {
+      window.achievements.recordDecision({
+        isCorrect,
+        isAlien: isActuallyAlien,
+        category: current.phrase.category,
+        decisionDurationSeconds,
+        livesLeft: lives,
+        phraseText: current.phrase.text
+      });
+    }
 
     // Show stamp animation
     if (playerChoseAlien) {
@@ -268,11 +288,47 @@
       }
     }
 
+    // Registrar estadísticas para logros de final de ronda
+    if (window.achievements) {
+      window.achievements.recordRoundFinish({
+        lives,
+        accuracy,
+        roundScore: score
+      });
+    }
+
     endModal.classList.add('active');
   }
 
   function restartRound() {
     initGame();
+  }
+
+  // Control del expediente de Logros y Condecoraciones
+  function openAchievements() {
+    if (window.achievements) {
+      window.achievements.renderModal();
+    }
+    if (achievementsModal) {
+      achievementsModal.classList.add('active');
+    }
+  }
+
+  function closeAchievements() {
+    if (achievementsModal) {
+      achievementsModal.classList.remove('active');
+    }
+  }
+
+  // Listeners para abrir y cerrar el modal de logros
+  if (btnMenuLogros) {
+    btnMenuLogros.addEventListener('click', openAchievements);
+  }
+  if (hudLogrosBtn) {
+    hudLogrosBtn.addEventListener('click', openAchievements);
+  }
+  if (btnCloseAchievements) {
+    btnCloseAchievements.addEventListener('click', closeAchievements);
   }
 
   // Music toggle listener
@@ -369,6 +425,14 @@
 
   // Global keyboard shortcuts
   window.addEventListener('keydown', (e) => {
+    // Si el modal de logros está abierto, cerrarlo con Escape
+    if (achievementsModal && achievementsModal.classList.contains('active')) {
+      if (e.key === 'Escape' || e.key === 'Enter') {
+        closeAchievements();
+      }
+      return;
+    }
+
     // Si el menú de inicio está visible
     if (startMenu && !startMenu.classList.contains('hidden')) {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -404,6 +468,8 @@
     makeDecision,
     nextTraveler,
     restartRound,
+    openAchievements,
+    closeAchievements,
     goToMenu: () => {
       if (startMenu) startMenu.classList.remove('hidden');
       if (timerInterval) clearInterval(timerInterval);
@@ -414,8 +480,10 @@
   if (document.readyState === 'loading') {
     window.addEventListener('DOMContentLoaded', () => {
       initGame(false);
+      if (window.achievements) window.achievements.updateBadgesCount();
     });
   } else {
     initGame(false);
+    if (window.achievements) window.achievements.updateBadgesCount();
   }
 })();

@@ -41,6 +41,7 @@
         <button type="button" class="menu-btn" id="btn-menu-logros">
           <span class="btn-icon">🏆</span>
           <span class="btn-text">Logros</span>
+          <span class="menu-pill-count" id="logros-count-badge">0/12</span>
         </button>
 
         <button type="button" class="menu-btn" id="btn-menu-galeria">
@@ -97,6 +98,10 @@
 
       <button id="music-btn" class="sound-toggle-btn" title="Activar/Pausar Música de Fondo">
         <span id="music-icon">🎵</span> Música
+      </button>
+
+      <button id="hud-logros-btn" class="sound-toggle-btn" title="Ver Expediente de Logros">
+        <span>🏆</span> Logros
       </button>
 
       <button id="sound-btn" class="sound-toggle-btn" title="Activar/Silenciar Efectos de Audio">
@@ -284,12 +289,57 @@
     </div>
   </div>
 
+  <!-- NOTIFICACIÓN FLOTANTE DE LOGRO DESBLOQUEADO (TOAST) -->
+  <aside id="achievement-toast" class="achievement-toast" aria-live="polite">
+    <div class="toast-medal-circle">
+      <span class="toast-medal-icon">🎖️</span>
+    </div>
+    <div class="toast-content">
+      <div class="toast-badge-tag">¡CONDECORACIÓN OBTENIDA!</div>
+      <div class="toast-medal-title">Nombre del Logro</div>
+      <div class="toast-medal-desc">Descripción del logro desbloqueado.</div>
+    </div>
+  </aside>
+
+  <!-- MODAL SISTEMA DE LOGROS Y MEDALLAS -->
+  <div class="modal-backdrop" id="achievements-modal">
+    <div class="modal-card modal-achievements-card">
+      <div class="achievements-modal-header">
+        <div class="achievements-header-title">
+          <span class="modal-title-icon">🏆</span>
+          <div>
+            <h2>EXPEDIENTE DE CONDECORACIONES</h2>
+            <p>Medallas obtenidas en la División Anti-Aliens</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-achievements" title="Cerrar Expediente">✕</button>
+      </div>
+
+      <div class="achievements-progress-container">
+        <div class="progress-labels">
+          <span>Progreso de Condecoraciones</span>
+          <span id="achievements-progress-text">0 de 12 (0%)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="achievements-progress-bar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Cuadrícula con las 12 medallitas curiosas -->
+      <div class="achievements-grid" id="achievements-grid">
+        <!-- Generado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
   <!-- SCRIPTS MODULARES SEPARADOS -->
   <!-- 1. Banco de más de 110 casos ortográficos y perfiles -->
   <script src="js/cases.js"></script>
   <!-- 2. Motor de efectos de sonido sintetizados (Web Audio API) -->
   <script src="js/audio.js"></script>
-  <!-- 3. Motor del juego y controladores de interfaz -->
+  <!-- 3. Sistema de Logros, medallas y condecoraciones -->
+  <script src="js/achievements.js"></script>
+  <!-- 4. Motor del juego y controladores de interfaz -->
   <script src="js/game.js"></script>
 </body>
 </html>
