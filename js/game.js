@@ -77,6 +77,10 @@
   const blitzRecordBadge = document.getElementById('blitz-record-badge');
   const survivalRecordBadge = document.getElementById('survival-record-badge');
   const campaignDayBadge = document.getElementById('campaign-day-badge');
+  const btnMenuGaleria = document.getElementById('btn-menu-galeria');
+  const hudGalleryBtn = document.getElementById('hud-gallery-btn');
+  const galleryModal = document.getElementById('gallery-modal');
+  const btnCloseGallery = document.getElementById('btn-close-gallery');
 
   // Cargar estado de progreso de campaña desde almacenamiento
   try {
@@ -387,6 +391,11 @@
     if (isCorrect) {
       correctCount++;
       if (window.sfx) window.sfx.playSuccess();
+
+      // Revelar postal de recuerdo si se aprobó a un turista humano legítimo
+      if (!isActuallyAlien && window.gallery) {
+        window.gallery.checkUnlockFromTourist(current.dest, current.phrase.text);
+      }
 
       if (currentGameMode === 'blitz') {
         score += 150;
@@ -745,6 +754,44 @@
     btnCloseAchievements.addEventListener('click', closeAchievements);
   }
 
+  // Control del Álbum de Postales y Galería de México
+  function openGallery(filter = 'all') {
+    if (window.gallery) {
+      window.gallery.renderModal(filter);
+    }
+    if (galleryModal) {
+      galleryModal.classList.add('active');
+    }
+  }
+
+  function closeGallery() {
+    if (galleryModal) {
+      galleryModal.classList.remove('active');
+    }
+  }
+
+  if (btnMenuGaleria) {
+    btnMenuGaleria.addEventListener('click', () => openGallery('all'));
+  }
+  if (hudGalleryBtn) {
+    hudGalleryBtn.addEventListener('click', () => openGallery('all'));
+  }
+  if (btnCloseGallery) {
+    btnCloseGallery.addEventListener('click', closeGallery);
+  }
+
+  // Pestañas de filtrado de la galería
+  ['all', 'unlocked', 'locked'].forEach(filterName => {
+    const tabEl = document.getElementById(`tab-gallery-${filterName}`);
+    if (tabEl) {
+      tabEl.addEventListener('click', () => {
+        document.querySelectorAll('.gallery-tab-btn').forEach(b => b.classList.remove('active'));
+        tabEl.classList.add('active');
+        if (window.gallery) window.gallery.renderModal(filterName);
+      });
+    }
+  });
+
   // Music toggle listener
   if (musicBtn) {
     musicBtn.addEventListener('click', () => {
@@ -795,6 +842,7 @@
 
     if (endModal) endModal.classList.remove('active');
     if (gameModesModal) gameModesModal.classList.remove('active');
+    if (galleryModal) galleryModal.classList.remove('active');
 
     if (startMenu) {
       startMenu.classList.remove('hidden');
@@ -831,6 +879,11 @@
     // Si algún modal está abierto
     if (achievementsModal && achievementsModal.classList.contains('active')) {
       if (e.key === 'Escape' || e.key === 'Enter') closeAchievements();
+      return;
+    }
+
+    if (galleryModal && galleryModal.classList.contains('active')) {
+      if (e.key === 'Escape' || e.key === 'Enter') closeGallery();
       return;
     }
 
@@ -893,6 +946,8 @@
     closeGameModesModal,
     openAchievements,
     closeAchievements,
+    openGallery,
+    closeGallery,
     goToMenu: returnToStartMenu
   };
 
@@ -900,9 +955,11 @@
     window.addEventListener('DOMContentLoaded', () => {
       initGame(false);
       if (window.achievements) window.achievements.updateBadgesCount();
+      if (window.gallery) window.gallery.updateBadgeCount();
     });
   } else {
     initGame(false);
     if (window.achievements) window.achievements.updateBadgesCount();
+    if (window.gallery) window.gallery.updateBadgeCount();
   }
 })();

@@ -1777,5 +1777,362 @@ footer {
   100% { opacity: 0; transform: translateY(-20px); }
 }
 
+/* ==========================================================================
+   ÁLBUM DE POSTALES TURÍSTICAS DE MÉXICO (GALERÍA POLAROID 3D)
+   ========================================================================== */
 
+.modal-gallery-card {
+  max-width: 980px !important;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  padding: 28px !important;
+  border-color: var(--accent-yellow) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 45px rgba(255, 183, 3, 0.25) !important;
+}
 
+.gallery-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #233149;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.gallery-header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gallery-header-title h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.gallery-header-title p {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+.gallery-filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.gallery-tab-btn {
+  background: #151d2c;
+  border: 1px solid #2d3b55;
+  color: #94a3b8;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-hud);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gallery-tab-btn:hover {
+  color: #fff;
+  border-color: var(--accent-yellow);
+}
+
+.gallery-tab-btn.active {
+  background: rgba(255, 183, 3, 0.15);
+  color: var(--accent-yellow);
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 12px var(--accent-yellow-glow);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 56vh;
+  padding: 8px 8px 18px 4px;
+}
+
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 580px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gallery-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.gallery-grid::-webkit-scrollbar-track {
+  background: #111724;
+  border-radius: 4px;
+}
+.gallery-grid::-webkit-scrollbar-thumb {
+  background: #233149;
+  border-radius: 4px;
+}
+
+/* Tarjeta Postal (Efecto Giro 3D) */
+.postcard-wrapper {
+  perspective: 1000px;
+  height: 330px;
+  cursor: pointer;
+}
+
+.postcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.postcard-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.postcard-front, .postcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* CARA FRONTAL: FOTO POLAROID RETRO */
+.postcard-front {
+  background: #fdfdfd;
+  color: #1e293b;
+  padding: 12px 12px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s;
+}
+
+.postcard-wrapper:hover .postcard-front {
+  box-shadow: 0 12px 30px rgba(255, 183, 3, 0.35);
+}
+
+.postcard-photo-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.postcard-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.postcard-wrapper:hover .postcard-img {
+  transform: scale(1.05);
+}
+
+.postcard-region-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.postcard-flip-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  color: #f1f5f9;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.postcard-caption {
+  text-align: left;
+  padding-top: 8px;
+}
+
+.postcard-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postcard-state {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* CARA TRASERA: REVERSO POSTAL VINTAGE */
+.postcard-back {
+  background: #fffcf2;
+  color: #2b2d42;
+  transform: rotateY(180deg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid #e2d9c2;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  background-image: radial-gradient(#d3cbb4 0.75px, transparent 0.75px);
+  background-size: 14px 14px;
+}
+
+.postcard-back-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.postmark-circle {
+  display: inline-block;
+  border: 2px dashed #94a3b8;
+  border-radius: 50%;
+  padding: 6px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #475569;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.postal-stamp {
+  border: 2px dashed #d97706;
+  background: rgba(217, 119, 6, 0.08);
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stamp-icon {
+  font-size: 1.2rem;
+}
+
+.stamp-code {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 700;
+  color: #b45309;
+}
+
+.postcard-back-body {
+  text-align: left;
+  border-left: 2px solid #cbd5e1;
+  padding-left: 10px;
+  margin: 10px 0;
+}
+
+.curiosity-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #b45309;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.postcard-curiosity-text {
+  font-family: 'Special Elite', cursive, serif;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #1e293b;
+}
+
+.postcard-back-footer {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: #64748b;
+  text-align: center;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 6px;
+}
+
+/* POSTAL BLOQUEADA (CLASIFICADA) */
+.postcard-wrapper.locked .postcard-front {
+  background: linear-gradient(160deg, #151d2c 0%, #0d131f 100%);
+  border: 2px dashed #2d3b55;
+  color: #94a3b8;
+  cursor: default;
+}
+
+.postcard-locked-silhouette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.locked-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+}
+
+.locked-title {
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: #cbd5e1;
+}
+
+.locked-state {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-yellow);
+}
+
+.locked-clue {
+  font-size: 0.68rem;
+  color: #64748b;
+  line-height: 1.35;
+  text-align: center;
+}

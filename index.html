@@ -41,12 +41,13 @@
         <button type="button" class="menu-btn" id="btn-menu-logros">
           <span class="btn-icon">🏆</span>
           <span class="btn-text">Logros</span>
-          <span class="menu-pill-count" id="logros-count-badge">0/12</span>
+          <span class="menu-pill-count" id="logros-count-badge">0/15</span>
         </button>
 
         <button type="button" class="menu-btn" id="btn-menu-galeria">
           <span class="btn-icon">🖼️</span>
           <span class="btn-text">Galeria</span>
+          <span class="menu-pill-count" id="gallery-count-badge">0/12</span>
         </button>
 
         <button type="button" class="menu-btn btn-menu-exit" id="btn-menu-salir">
@@ -106,6 +107,10 @@
 
       <button id="hud-logros-btn" class="sound-toggle-btn" title="Ver Expediente de Logros">
         <span>🏆</span> Logros
+      </button>
+
+      <button id="hud-gallery-btn" class="sound-toggle-btn" title="Ver Álbum de Postales de México">
+        <span>🖼️</span> Galería
       </button>
 
       <button id="sound-btn" class="sound-toggle-btn" title="Activar/Silenciar Efectos de Audio">
@@ -429,6 +434,44 @@
     </div>
   </div>
 
+  <!-- MODAL ÁLBUM DE POSTALES TURÍSTICAS (GALERÍA DE RECUERDOS DE MÉXICO) -->
+  <div class="modal-backdrop" id="gallery-modal">
+    <div class="modal-card modal-gallery-card">
+      <div class="gallery-modal-header">
+        <div class="gallery-header-title">
+          <span class="modal-title-icon">📸</span>
+          <div>
+            <h2>ÁLBUM DE POSTALES: RECUERDOS DE MÉXICO</h2>
+            <p>Destinos turísticos asegurados por la División Anti-Aliens • Toca las postales para leer su curiosidad</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-gallery" title="Cerrar Álbum">✕</button>
+      </div>
+
+      <div class="achievements-progress-container" style="margin-bottom: 14px;">
+        <div class="progress-labels">
+          <span>Colección de Postales Reveladas</span>
+          <span id="gallery-progress-text">0 de 12 (0%)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="gallery-progress-bar" style="width: 0%; background: linear-gradient(90deg, #ffb703 0%, #00d4ff 100%);"></div>
+        </div>
+      </div>
+
+      <!-- Filtros de visualización -->
+      <div class="gallery-filter-tabs">
+        <button type="button" class="gallery-tab-btn active" data-filter="all" id="tab-gallery-all">Todas (12)</button>
+        <button type="button" class="gallery-tab-btn" data-filter="unlocked" id="tab-gallery-unlocked">Reveladas</button>
+        <button type="button" class="gallery-tab-btn" data-filter="locked" id="tab-gallery-locked">Por Descubrir</button>
+      </div>
+
+      <!-- Cuadrícula de Postales 3D Polaroid -->
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Renderizado dinámico desde js/gallery.js -->
+      </div>
+    </div>
+  </div>
+
   <!-- SCRIPTS MODULARES SEPARADOS -->
   <!-- 1. Banco de más de 110 casos ortográficos y perfiles -->
   <script src="js/cases.js"></script>
@@ -436,7 +479,9 @@
   <script src="js/audio.js"></script>
   <!-- 3. Sistema de Logros, medallas y condecoraciones -->
   <script src="js/achievements.js"></script>
-  <!-- 4. Motor del juego y controladores de interfaz -->
+  <!-- 4. Álbum de Recuerdos y Postales de México (Galería) -->
+  <script src="js/gallery.js"></script>
+  <!-- 5. Motor del juego y controladores de interfaz -->
   <script src="js/game.js"></script>
 </body>
 </html>
