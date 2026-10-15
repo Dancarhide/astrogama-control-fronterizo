@@ -927,6 +927,49 @@ main {
   box-shadow: 0 0 35px rgba(0, 255, 136, 0.65);
 }
 
+.modal-actions-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-modal-exit {
+  background: #151d2c;
+  border: 1.5px solid #334155;
+  color: #cbd5e1;
+  padding: 14px 24px;
+  font-family: var(--font-hud);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.btn-modal-exit:hover {
+  border-color: var(--alarm-red);
+  color: #ff8093;
+  box-shadow: 0 0 16px rgba(255, 42, 75, 0.25);
+  background: #1c2230;
+}
+
+/* Botón Salir en la barra HUD superior */
+.btn-hud-exit {
+  border-color: rgba(255, 42, 75, 0.35);
+  color: #fca5a5;
+  transition: all 0.2s ease;
+}
+
+.btn-hud-exit:hover {
+  background: rgba(255, 42, 75, 0.15);
+  border-color: var(--alarm-red);
+  color: #ffffff;
+  box-shadow: 0 0 12px var(--alarm-red-glow);
+}
+
 /* FOOTER */
 footer {
   text-align: center;

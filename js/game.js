@@ -44,6 +44,8 @@
   const totalCasesBadge = document.getElementById('total-cases-badge');
   const startMenu = document.getElementById('start-menu');
   const btnMenuJugar = document.getElementById('btn-menu-jugar');
+  const exitGameBtn = document.getElementById('exit-game-btn');
+  const btnModalExit = document.getElementById('btn-modal-exit');
 
   function initGame(startTimerNow = true) {
     const casesBank = window.CASES_BANK || [];
@@ -295,10 +297,14 @@
     });
   }
 
-  // Desbloqueo suave de música en bucle con la primera interacción del usuario
+  // Desbloqueo suave de música con la primera interacción del usuario
   function triggerUserAudioStart() {
     if (window.sfx) {
-      window.sfx.startBgm();
+      if (startMenu && !startMenu.classList.contains('hidden')) {
+        window.sfx.playMenuMusic();
+      } else {
+        window.sfx.playGameMusic();
+      }
     }
   }
   window.addEventListener('click', triggerUserAudioStart, { once: true });
@@ -311,11 +317,40 @@
         startMenu.classList.add('hidden');
       }
       if (window.sfx) {
-        window.sfx.startBgm();
         window.sfx.playStamp();
+        window.sfx.playGameMusic();
       }
-      initGame();
+      initGame(true);
     });
+  }
+
+  // Función para regresar al Menú de Inicio desde el juego
+  function returnToStartMenu() {
+    if (timerInterval) clearInterval(timerInterval);
+    if (autoNextTimeout) clearTimeout(autoNextTimeout);
+    
+    // Ocultar modal si estaba visible
+    if (endModal) endModal.classList.remove('active');
+
+    // Mostrar menú de inicio
+    if (startMenu) {
+      startMenu.classList.remove('hidden');
+    }
+
+    // Cambiar música de regreso a la canción del Menú Oscuro
+    if (window.sfx) {
+      window.sfx.playMenuMusic();
+    }
+  }
+
+  // Listener para el botón de Salir en el HUD del juego
+  if (exitGameBtn) {
+    exitGameBtn.addEventListener('click', returnToStartMenu);
+  }
+
+  // Listener para el botón de Salir en el modal de fin de ronda
+  if (btnModalExit) {
+    btnModalExit.addEventListener('click', returnToStartMenu);
   }
 
   // Action button listeners
