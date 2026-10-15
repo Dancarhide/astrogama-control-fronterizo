@@ -31,7 +31,7 @@ const GALLERY_POSTCARDS = [
     state: "Quintana Roo",
     region: "Caribe Mexicano",
     keywords: ["Cancún", "Cancun", "Quintana Roo", "Playa del Carmen", "Tulum", "Riviera Maya", "playas"],
-    image: "https://images.unsplash.com/photo-1510097467424-192d713fd8c2?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80",
     trivia: "La arena de Cancún proviene en su totalidad de restos de corales triturados por peces loro durante milenios, por lo que nunca se calienta intensamente al sol.",
     stampCode: "QROO-77500-CARIBE",
     stampIcon: "🏖️"
@@ -53,7 +53,7 @@ const GALLERY_POSTCARDS = [
     state: "Guanajuato",
     region: "El Bajío Colonial",
     keywords: ["Guanajuato", "San Miguel de Allende", "callejones", "Callejón del Beso", "Pípila", "Cervantino"],
-    image: "https://images.unsplash.com/photo-1568402102990-bc541580b29f?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=800&q=80",
     trivia: "Es una de las pocas ciudades coloniales del mundo con una compleja red de túneles subterráneos para el tráfico, construidos originalmente para encauzar el río.",
     stampCode: "GTO-36000-CERVANTES",
     stampIcon: "🎺"
