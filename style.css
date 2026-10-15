@@ -950,6 +950,16 @@ footer {
   justify-content: center;
   overflow: hidden;
   background-color: #0b0e14;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.45s ease, visibility 0.45s ease, transform 0.45s ease;
+}
+
+.start-menu-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(1.04);
 }
 
 .menu-backdrop {

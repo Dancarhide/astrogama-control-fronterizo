@@ -42,8 +42,10 @@
   const btnNext = document.getElementById('btn-next');
   const btnRestart = document.getElementById('btn-restart');
   const totalCasesBadge = document.getElementById('total-cases-badge');
+  const startMenu = document.getElementById('start-menu');
+  const btnMenuJugar = document.getElementById('btn-menu-jugar');
 
-  function initGame() {
+  function initGame(startTimerNow = true) {
     const casesBank = window.CASES_BANK || [];
     const travelerProfiles = window.TRAVELER_PROFILES || [];
 
@@ -87,10 +89,12 @@
       });
     }
 
-    // Start global round timer
+    // Start global round timer if requested
     if (timerInterval) clearInterval(timerInterval);
-    roundStartTime = Date.now();
-    timerInterval = setInterval(updateTimer, 1000);
+    if (startTimerNow) {
+      roundStartTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
 
     loadTraveler(0);
   }
@@ -300,6 +304,20 @@
   window.addEventListener('click', triggerUserAudioStart, { once: true });
   window.addEventListener('keydown', triggerUserAudioStart, { once: true });
 
+  // Botón JUGAR del Menú de Inicio: Transiciona a la mesa de inspección
+  if (btnMenuJugar) {
+    btnMenuJugar.addEventListener('click', () => {
+      if (startMenu) {
+        startMenu.classList.add('hidden');
+      }
+      if (window.sfx) {
+        window.sfx.startBgm();
+        window.sfx.playStamp();
+      }
+      initGame();
+    });
+  }
+
   // Action button listeners
   if (btnAllow) {
     btnAllow.addEventListener('click', () => makeDecision(false));
@@ -316,6 +334,14 @@
 
   // Global keyboard shortcuts
   window.addEventListener('keydown', (e) => {
+    // Si el menú de inicio está visible
+    if (startMenu && !startMenu.classList.contains('hidden')) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (btnMenuJugar) btnMenuJugar.click();
+      }
+      return;
+    }
+
     if (endModal.classList.contains('active')) {
       if (e.key === 'Enter' || e.key === ' ') {
         restartRound();
@@ -342,13 +368,19 @@
     initGame,
     makeDecision,
     nextTraveler,
-    restartRound
+    restartRound,
+    goToMenu: () => {
+      if (startMenu) startMenu.classList.remove('hidden');
+      if (timerInterval) clearInterval(timerInterval);
+    }
   };
 
-  // Start on load
+  // Preparar juego en segundo plano sin arrancar el cronómetro hasta pulsar Jugar
   if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', initGame);
+    window.addEventListener('DOMContentLoaded', () => {
+      initGame(false);
+    });
   } else {
-    initGame();
+    initGame(false);
   }
 })();
