@@ -84,8 +84,8 @@
       roundQueue.push({
         phrase: caseData,
         name: profile.name,
-        dest: profile.dest,
-        dur: profile.dur,
+        dest: caseData.dest || "Ciudad de México (CDMX)",
+        dur: caseData.dur || "7 Días (Turismo)",
         docNum: docNum,
         seed: seed
       });
