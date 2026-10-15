@@ -218,6 +218,10 @@
     // Cronómetros según el modo
     if (timerInterval) clearInterval(timerInterval);
     if (startTimerNow) {
+      if (window.sfx) {
+        window.sfx.playGameMusic();
+      }
+
       if (currentGameMode === 'blitz') {
         timerDisplay.textContent = '01:00';
         timerDisplay.style.color = '#fff';
