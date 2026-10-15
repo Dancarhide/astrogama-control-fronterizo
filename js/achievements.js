@@ -98,6 +98,30 @@ const ACHIEVEMENTS_DATA = [
     symbol: "👑",
     ribbon: "💎",
     desc: "Completa los 10 viajeros con 100% de aciertos y las 3 vidas intactas."
+  },
+  {
+    id: "blitz_master",
+    title: "Rayo Fronterizo",
+    tier: "oro",
+    symbol: "⚡",
+    ribbon: "🥇",
+    desc: "Consigue al menos 10 aciertos en una sola sesión de Fiebre Blitz."
+  },
+  {
+    id: "survival_legend",
+    title: "Incorruptible",
+    tier: "platino",
+    symbol: "🛡️",
+    ribbon: "💎",
+    desc: "Alcanza una racha de 8 aciertos consecutivos en Tolerancia Cero."
+  },
+  {
+    id: "campana_heroe",
+    title: "Héroe de la Frontera",
+    tier: "platino",
+    symbol: "🎖️",
+    ribbon: "💎",
+    desc: "Supera con éxito los 4 días de la Campaña de Turnos Fronterizos."
   }
 ];
 
@@ -295,15 +319,28 @@ class AchievementsManager {
     this.saveState();
   }
 
-  recordRoundFinish({ lives, accuracy, roundScore }) {
-    // Sobrevivir con 1 sola vida
-    if (lives === 1) {
+  recordRoundFinish({ lives, accuracy, roundScore, mode, blitzCorrect, survivalStreak, campaignCompleted }) {
+    // Sobrevivir con 1 sola vida (en modo clásico o campaña)
+    if (lives === 1 && (mode === 'classic' || mode === 'campaign')) {
       this.unlock('al_borde');
     }
 
     // Ronda 100% y 3 vidas
     if (accuracy === 100 && lives === 3) {
       this.unlock('inspeccion_perfecta');
+    }
+
+    // Logros de nuevos modos de juego
+    if (blitzCorrect >= 10) {
+      this.unlock('blitz_master');
+    }
+
+    if (survivalStreak >= 8) {
+      this.unlock('survival_legend');
+    }
+
+    if (campaignCompleted) {
+      this.unlock('campana_heroe');
     }
 
     this.saveState();

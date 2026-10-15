@@ -1549,4 +1549,233 @@ footer {
   margin-top: 3px;
 }
 
+/* ==========================================================================
+   GAME MODES SELECTOR MODAL (SELECTOR DE OPERACIONES Y MODOS)
+   ========================================================================== */
+
+.modal-modes-card {
+  max-width: 860px !important;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  padding: 30px !important;
+  border-color: var(--cyber-blue) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 212, 255, 0.3) !important;
+}
+
+.modes-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #233149;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.modes-header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.modes-header-title h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.modes-header-title p {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+.game-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  overflow-y: auto;
+  max-height: 58vh;
+  padding-right: 6px;
+}
+
+@media (max-width: 720px) {
+  .game-modes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.game-modes-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.game-modes-grid::-webkit-scrollbar-track {
+  background: #111724;
+  border-radius: 4px;
+}
+.game-modes-grid::-webkit-scrollbar-thumb {
+  background: #233149;
+  border-radius: 4px;
+}
+
+/* Tarjeta individual de modo de juego */
+.mode-card {
+  background: linear-gradient(145deg, #161e2f 0%, #0e1522 100%);
+  border: 2px solid #233149;
+  border-radius: 14px;
+  padding: 20px 22px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.mode-card[data-mode="classic"]::before { background: var(--neon-green); }
+.mode-card[data-mode="blitz"]::before { background: var(--accent-yellow); }
+.mode-card[data-mode="survival"]::before { background: var(--alarm-red); }
+.mode-card[data-mode="campaign"]::before { background: var(--cyber-blue); }
+
+.mode-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+}
+
+.mode-card[data-mode="classic"]:hover { border-color: var(--neon-green); box-shadow: 0 0 25px var(--neon-green-glow); }
+.mode-card[data-mode="blitz"]:hover { border-color: var(--accent-yellow); box-shadow: 0 0 25px var(--accent-yellow-glow); }
+.mode-card[data-mode="survival"]:hover { border-color: var(--alarm-red); box-shadow: 0 0 25px var(--alarm-red-glow); }
+.mode-card[data-mode="campaign"]:hover { border-color: var(--cyber-blue); box-shadow: 0 0 25px rgba(0, 212, 255, 0.4); }
+
+.mode-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mode-emblem {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.mode-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.badge-classic { background: rgba(0, 255, 136, 0.15); color: var(--neon-green); border: 1px solid var(--neon-green); }
+.badge-blitz { background: rgba(255, 183, 3, 0.15); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+.badge-survival { background: rgba(255, 42, 75, 0.15); color: #f87171; border: 1px solid var(--alarm-red); }
+.badge-campaign { background: rgba(0, 212, 255, 0.15); color: var(--cyber-blue); border: 1px solid var(--cyber-blue); }
+
+.mode-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #fff;
+}
+
+.mode-desc {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.45;
+  min-height: 44px;
+}
+
+.mode-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: #cbd5e1;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-start-mode {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: var(--font-hud);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  width: 100%;
+}
+
+.mode-card[data-mode="classic"] .btn-start-mode { background: #0c6a3c; border-color: var(--neon-green); }
+.mode-card[data-mode="blitz"] .btn-start-mode { background: #855b04; border-color: var(--accent-yellow); }
+.mode-card[data-mode="survival"] .btn-start-mode { background: #821525; border-color: var(--alarm-red); }
+.mode-card[data-mode="campaign"] .btn-start-mode { background: #075477; border-color: var(--cyber-blue); }
+
+.mode-card:hover .btn-start-mode {
+  transform: scale(1.02);
+  filter: brightness(1.2);
+}
+
+/* Badge del Modo activo en el HUD superior */
+.header-mode-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--cyber-blue);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  margin-top: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Animación de bonus/penalización de tiempo en Blitz */
+.time-delta-popup {
+  position: absolute;
+  top: -15px;
+  right: 0;
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 1.1rem;
+  pointer-events: none;
+  animation: floatFadeOut 1s ease-out forwards;
+}
+
+.time-delta-popup.plus { color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green); }
+.time-delta-popup.minus { color: var(--alarm-red); text-shadow: 0 0 8px var(--alarm-red); }
+
+@keyframes floatFadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+
 

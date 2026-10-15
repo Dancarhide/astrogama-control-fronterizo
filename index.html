@@ -67,7 +67,10 @@
       <div class="logo-badge">🛸</div>
       <div class="title-group">
         <h1>AstroGama: Control Fronterizo</h1>
-        <p>División Anti-Aliens • Frontera Norte</p>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <p style="margin: 0;">División Anti-Aliens • Frontera Norte</p>
+          <span id="hud-mode-badge" class="header-mode-tag">PROTOCOLO CLÁSICO</span>
+        </div>
       </div>
     </div>
 
@@ -87,13 +90,14 @@
       </div>
 
       <div class="stat-box">
-        <span class="stat-label">Viajero</span>
-        <span class="stat-value"><span id="traveler-num">1</span>/10</span>
+        <span class="stat-label" id="traveler-label">Viajero</span>
+        <span class="stat-value"><span id="traveler-num">1</span><span id="traveler-total-wrapper">/<span id="traveler-total">10</span></span></span>
       </div>
 
-      <div class="stat-box">
+      <div class="stat-box" style="position: relative;">
         <span class="stat-label">Tiempo</span>
         <span class="stat-value" id="timer-display">00:00</span>
+        <div id="time-delta-container"></div>
       </div>
 
       <button id="music-btn" class="sound-toggle-btn" title="Activar/Pausar Música de Fondo">
@@ -279,6 +283,9 @@
       </div>
 
       <div class="modal-actions-box">
+        <button class="btn-restart" id="btn-campaign-next" style="display: none; background: linear-gradient(90deg, #00d4ff 0%, #00b4d8 100%);">
+          ⏩ AVANZAR AL SIGUIENTE DÍA
+        </button>
         <button class="btn-restart" id="btn-restart">
           🔄 REINICIAR RONDA
         </button>
@@ -318,16 +325,106 @@
       <div class="achievements-progress-container">
         <div class="progress-labels">
           <span>Progreso de Condecoraciones</span>
-          <span id="achievements-progress-text">0 de 12 (0%)</span>
+          <span id="achievements-progress-text">0 de 15 (0%)</span>
         </div>
         <div class="progress-track">
           <div class="progress-fill" id="achievements-progress-bar" style="width: 0%;"></div>
         </div>
       </div>
 
-      <!-- Cuadrícula con las 12 medallitas curiosas -->
+      <!-- Cuadrícula con las medallitas curiosas -->
       <div class="achievements-grid" id="achievements-grid">
         <!-- Generado dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SELECTOR DE MODOS DE JUEGO -->
+  <div class="modal-backdrop" id="game-modes-modal">
+    <div class="modal-card modal-modes-card">
+      <div class="modes-modal-header">
+        <div class="modes-header-title">
+          <span class="modal-title-icon">🛸</span>
+          <div>
+            <h2>SELECCIONAR PROTOCOLO DE INSPECCIÓN</h2>
+            <p>Elige tu modalidad de operaciones en la frontera</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-modes" title="Cerrar Selector">✕</button>
+      </div>
+
+      <div class="game-modes-grid">
+        <!-- Modo 1: Clásico -->
+        <div class="mode-card" data-mode="classic" id="mode-card-classic">
+          <div class="mode-card-header">
+            <span class="mode-emblem">📋</span>
+            <span class="mode-badge badge-classic">ESTÁNDAR</span>
+          </div>
+          <div>
+            <h3 class="mode-title">Protocolo Clásico</h3>
+            <p class="mode-desc">Turno regular de control migratorio. Inspecciona a 10 viajeros con 3 vidas de margen de error.</p>
+          </div>
+          <div class="mode-meta">
+            <span>🎯 <strong>Objetivo:</strong> 10 Viajeros</span>
+            <span>❤️ <strong>Vidas:</strong> 3 Vidas de tolerancia</span>
+            <span>⏱️ <strong>Cronómetro:</strong> Tiempo libre</span>
+          </div>
+          <button type="button" class="btn-start-mode">INICIAR TURNO</button>
+        </div>
+
+        <!-- Modo 2: Blitz Contrarreloj -->
+        <div class="mode-card" data-mode="blitz" id="mode-card-blitz">
+          <div class="mode-card-header">
+            <span class="mode-emblem">⚡</span>
+            <span class="mode-badge badge-blitz">CONTRARRELOJ</span>
+          </div>
+          <div>
+            <h3 class="mode-title">Fiebre Blitz (60s)</h3>
+            <p class="mode-desc">¡La aduana está colapsando! Tienes 60 segundos. Cada acierto suma +5s; cada error resta -5s.</p>
+          </div>
+          <div class="mode-meta">
+            <span>🎯 <strong>Objetivo:</strong> Máximos aciertos posibles</span>
+            <span>⏱️ <strong>Reloj:</strong> 60s regresivo (+5s / -5s)</span>
+            <span>🔥 <strong>Récord:</strong> <span id="blitz-record-badge">0 pts</span></span>
+          </div>
+          <button type="button" class="btn-start-mode">INICIAR BLITZ</button>
+        </div>
+
+        <!-- Modo 3: Supervivencia / Tolerancia Cero -->
+        <div class="mode-card" data-mode="survival" id="mode-card-survival">
+          <div class="mode-card-header">
+            <span class="mode-emblem">💀</span>
+            <span class="mode-badge badge-survival">EXTREMO</span>
+          </div>
+          <div>
+            <h3 class="mode-title">Tolerancia Cero</h3>
+            <p class="mode-desc">Alerta de máxima seguridad. Viajeros continuos e infinitos. Un solo fallo y quedas despedido.</p>
+          </div>
+          <div class="mode-meta">
+            <span>🎯 <strong>Objetivo:</strong> Racha máxima sin fin</span>
+            <span>❤️ <strong>Vidas:</strong> 1 Sola vida (0 errores)</span>
+            <span>🔥 <strong>Récord Racha:</strong> <span id="survival-record-badge">0 aciertos</span></span>
+          </div>
+          <button type="button" class="btn-start-mode">SUPERVIVENCIA</button>
+        </div>
+
+        <!-- Modo 4: Campaña por Días -->
+        <div class="mode-card" data-mode="campaign" id="mode-card-campaign">
+          <div class="mode-card-header">
+            <span class="mode-emblem">🗺️</span>
+            <span class="mode-badge badge-campaign">HISTORIA</span>
+          </div>
+          <div>
+            <h3 class="mode-title">Campaña de Turnos</h3>
+            <p class="mode-desc">Avanza por 4 días temáticos: Día 1 (Tildes), Día 2 (B/V y Hache), Día 3 (C/S/Z y G/J), Día 4 (Invasión Mixta).</p>
+          </div>
+          <div class="mode-meta">
+            <span>📅 <strong>Estado:</strong> <span id="campaign-day-badge">Día 1 de 4</span></span>
+            <span>🎯 <strong>Meta:</strong> 5 Viajeros por día</span>
+            <span>🏆 <strong>Recompensa:</strong> Condecoración Especial</span>
+          </div>
+          <button type="button" class="btn-start-mode">JUGAR CAMPAÑA</button>
+        </div>
       </div>
     </div>
   </div>
