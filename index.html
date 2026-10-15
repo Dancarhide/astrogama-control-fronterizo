@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroGama: Control Fronterizo | Detector de Aliens</title>
+
+  <!-- Google Fonts: Retro Sci-Fi & Typewriter Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Share+Tech+Mono&family=Special+Elite&display=swap" rel="stylesheet">
+  
+  <!-- Estilos CSS Modulares Separados -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Alarma Visual en Pantalla Completa para Errores -->
+  <div id="alarm-overlay"></div>
+
+  <!-- SECCIÓN 1: PANEL SUPERIOR (HUD & ESTADÍSTICAS) -->
+  <header>
+    <div class="brand-section">
+      <div class="logo-badge">🛸</div>
+      <div class="title-group">
+        <h1>AstroGama: Control Fronterizo</h1>
+        <p>División Anti-Aliens • Frontera Norte</p>
+      </div>
+    </div>
+
+    <div class="hud-stats">
+      <div class="stat-box">
+        <span class="stat-label">Vidas</span>
+        <div class="lives-container" id="lives-container">
+          <span class="life-heart" id="life-1">❤️</span>
+          <span class="life-heart" id="life-2">❤️</span>
+          <span class="life-heart" id="life-3">❤️</span>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Puntos</span>
+        <span class="stat-value" id="score-display">0</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Viajero</span>
+        <span class="stat-value"><span id="traveler-num">1</span>/10</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Tiempo</span>
+        <span class="stat-value" id="timer-display">00:00</span>
+      </div>
+
+      <button id="sound-btn" class="sound-toggle-btn" title="Activar/Silenciar Efectos de Audio">
+        <span id="sound-icon">🔊</span> SFX
+      </button>
+    </div>
+  </header>
+
+  <!-- SECCIÓN 2: MESA DE INSPECCIÓN Y DOCUMENTOS -->
+  <main>
+    <div class="inspection-desk">
+      <!-- Barra de estado y briefing del puesto -->
+      <div class="desk-banner">
+        <div class="desk-status">
+          <div class="blinking-dot"></div>
+          <span>ESCANEO ACTIVO: REVISIÓN DE DECLARACIONES TURÍSTICAS</span>
+        </div>
+        <div class="briefing-pill" id="total-cases-badge">
+          ⚠️ Atento a tildes, b/v, c/s/z, g/j y 'h'
+        </div>
+      </div>
+
+      <!-- DOCUMENTO 1: PASAPORTE ESTADOUNIDENSE CON AVATAR DICEBEAR -->
+      <section class="passport-book" id="passport-element" aria-label="Pasaporte del Viajero">
+        <div class="passport-header">
+          <div class="passport-emblem">🦅</div>
+          <div class="passport-title">United States of America</div>
+          <div class="passport-subtitle">PASSPORT • PASAPORTE</div>
+        </div>
+
+        <div class="passport-page">
+          <div class="passport-id-grid">
+            <div class="avatar-wrapper">
+              <img id="avatar-img" class="avatar-img" src="" alt="Retrato biométrico del viajero">
+              <div class="avatar-scanner"></div>
+            </div>
+
+            <div class="passport-info">
+              <div class="info-field">
+                <span class="info-label">Apellidos / Nombres</span>
+                <span class="info-value" id="traveler-name">Cargando...</span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">Nacionalidad / Origen</span>
+                <span class="origin-flag-badge">
+                  <span>🇺🇸</span>
+                  <span class="info-value" style="font-size: 0.8rem;">EE.UU.</span>
+                </span>
+              </div>
+              <div class="info-field">
+                <span class="info-label">No. Documento</span>
+                <span class="info-value" id="doc-number" style="font-family: var(--font-mono); font-size: 0.85rem;">US-00000000A</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="passport-mrz" id="passport-mrz">
+            P&lt;USA&lt;&lt;JOHNSON&lt;&lt;MARK&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>
+            982341204USA8704128M2911241&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;02
+          </div>
+        </div>
+      </section>
+
+      <!-- DOCUMENTO 2: FICHA DE DECLARACIÓN (MOTIVO DE VISITA A ANALIZAR) -->
+      <section class="declaration-form" id="declaration-form" aria-label="Ficha de Declaración Aduanal">
+        <!-- Sello físico dinámico -->
+        <div class="stamp-overlay" id="stamp-mark">APROBADO</div>
+
+        <div class="form-header">
+          <div class="form-title-group">
+            <h2>Ficha de Declaración Aduanal</h2>
+            <p>Instituto Nacional de Migración • Entrada Internacional</p>
+          </div>
+          <div class="form-code">FMM-2026-AL</div>
+        </div>
+
+        <div class="form-meta-grid">
+          <div class="meta-item">
+            <span class="meta-tag">Destino Declarado</span>
+            <span class="meta-val" id="dest-val">Cancún, Quintana Roo</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-tag">Estancia Estimada</span>
+            <span class="meta-val" id="dur-val">7 Días (Vacaciones)</span>
+          </div>
+        </div>
+
+        <!-- MOTIVO DE VISITA: ZONA CRÍTICA DE ANÁLISIS ORTOGRÁFICO -->
+        <div class="motivo-box">
+          <span class="motivo-label">Motivo de Visita (Declaración Jurada)</span>
+          <div class="motivo-text" id="motivo-text">
+            "Cargando declaración del viajero..."
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <div class="signature-area">
+            <div class="signature-line" id="signature-text">Mark Johnson</div>
+            <div class="signature-caption">Firma del Solicitante</div>
+          </div>
+          <div style="font-size: 0.65rem; color: #94a3b8; font-family: var(--font-mono); text-align: right;">
+            SELLO OFICIAL REQUERIDO<br>
+            ART. 42 LEY GENERAL MIGRATORIA
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 3: BANNER EXPLICATIVO DE RETROALIMENTACIÓN ORTOGRÁFICA -->
+      <div class="feedback-banner" id="feedback-banner">
+        <div class="feedback-content">
+          <span class="feedback-icon" id="feedback-icon">💡</span>
+          <span id="feedback-message">Explicación del análisis ortográfico...</span>
+        </div>
+        <button class="btn-next-action" id="btn-next">
+          Siguiente Viajero ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 4: BOTONES DE DECISIÓN DEL AGENTE -->
+    <div class="decision-controls">
+      <button class="decision-btn btn-allow" id="btn-allow">
+        <span>🟢 PERMITIR PASO</span>
+        <span class="key-shortcut">[Tecla A / ←]</span>
+      </button>
+
+      <button class="decision-btn btn-impostor" id="btn-impostor">
+        <span>🔴 ¡ALIEN IMPOSTOR!</span>
+        <span class="key-shortcut">[Tecla D / →]</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- SECCIÓN 5: PIE DE PÁGINA Y ATAJOS -->
+  <footer>
+    <div class="keyboard-hint">
+      <span>💡 Atajos rápidos:</span>
+      <span>[A] o [←] Permitir Paso (Humano)</span>
+      <span>•</span>
+      <span>[D] o [→] Alien Impostor</span>
+      <span>•</span>
+      <span>[Espacio/Enter] Siguiente</span>
+    </div>
+  </footer>
+
+  <!-- SECCIÓN 6: MODAL EVALUACIÓN FINAL DE LA RONDA -->
+  <div class="modal-backdrop" id="end-modal">
+    <div class="modal-card">
+      <div class="modal-icon" id="modal-icon">🎖️</div>
+      <h2 class="modal-title" id="modal-title">INSPECCIÓN COMPLETADA</h2>
+      <p class="modal-subtitle" id="modal-subtitle">Reporte oficial del puesto fronterizo</p>
+
+      <div class="rank-badge-box">
+        <div class="rank-title-label">Rango Oficial Asignado</div>
+        <div class="rank-badge-name" id="rank-badge">Agente Élite Anti-Aliens 🎖️</div>
+      </div>
+
+      <div class="modal-stats-grid">
+        <div class="modal-stat-pill">
+          <div class="modal-stat-val" id="final-score">1000</div>
+          <div class="modal-stat-name">Puntos</div>
+        </div>
+        <div class="modal-stat-pill">
+          <div class="modal-stat-val" id="final-accuracy">100%</div>
+          <div class="modal-stat-name">Precisión</div>
+        </div>
+        <div class="modal-stat-pill">
+          <div class="modal-stat-val" id="final-time">45s</div>
+          <div class="modal-stat-name">Tiempo Total</div>
+        </div>
+      </div>
+
+      <button class="btn-restart" id="btn-restart">
+        🔄 REINICIAR RONDA
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPTS MODULARES SEPARADOS -->
+  <!-- 1. Banco de más de 110 casos ortográficos y perfiles -->
+  <script src="js/cases.js"></script>
+  <!-- 2. Motor de efectos de sonido sintetizados (Web Audio API) -->
+  <script src="js/audio.js"></script>
+  <!-- 3. Motor del juego y controladores de interfaz -->
+  <script src="js/game.js"></script>
+</body>
+</html>
